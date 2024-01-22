@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--favicon-->
+        <link rel="icon" type="image/x-icon" href="images/icon.jpg">
+        <link rel="stylesheet" href="home.css"> 
+        <title>Task</title>
+</head>
+<body>
+
+        <div class="main" id="main">
+                <section class="topSection inputForm">
+                        <form class="form" id="form">
+                                        <pre><label for="userName">Name  :</label><input type="text" id="userName"></pre>
+                                        <pre><label for="userEmail">Email :</label><input type="email" id="userEmail"></pre>
+                                        <pre><label for="userPhone">Phone :</label><input type="tel" id="userPhone"></pre>
+                                        <pre><label for="userAge">Age   :</label><input type="number" id="userAge"></pre>
+                        </form>
+                </section>
+        </div>
+        <p style="font-weight: bold;">Area Of Intrest</p>
+        <div class="multiSelectBoxes" id="multiSelectBoxes">
+                <!-- Multiselect boxes -->
+                <select id="leftSelect" multiple style="width: 20vw;">
+                <option id="option1">Java</option>
+                <option id="option2">Python</option>
+                <option id="option3">JavaScript</option>
+                <option id="option4">GoLang</option>
+              </select>
+        
+              <div>
+                <!-- Buttons to move options -->
+                <button id="leftArrowButton" onclick="moveOptions('leftSelect', 'rightSelect')"> &rarr; </button><br>
+                <button id="rightArrowButton" onclick="moveOptions('rightSelect', 'leftSelect')"> &larr; </button>
+              </div>
+        
+              <select id="rightSelect"  multiple>
+                <!-- Empty initially -->
+              </select>
+
+        </div>
+        <!-- // submit button -->
+      <button id="submitButton" onclick="validateAndAdd()">Submit</button>
+       <!-- // show or hide button -->
+       <button id="displayOrHideTable" onclick="displayOrHideTable()"></button>
+       <div><!-- // details table -->
+               <table id="detailsTable">
+                       <thead>
+                               <th>Name</th>
+                               <th>Email</th>
+                               <th>Phone</th>
+                               <th>Age</th>
+                               <th>Intrests</th>
+                       </thead>
+                       <tbody id="tableBody">
+                                
+                       </tbody>
+               </table>
+       </div>
+       <!--nextAndPrevButtons-->
+       <section class="nextAndPrevButtons">
+                <button id="prevButton" onclick="prevEntries()">Prev</button>
+                <button id="nextButton" onclick="nextEntries()">Next</button>
+       </section>
+
+        <script src="home.js"></script>
+</body>
+</html>

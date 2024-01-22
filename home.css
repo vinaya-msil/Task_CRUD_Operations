@@ -1,0 +1,43 @@
+body{
+        background-color: rgb(196, 186, 220);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+}
+.inputForm{
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+}
+#leftSelect,#rightSelect{
+        width: 100%;
+}
+#multiSelectBoxes{
+        display: flex;
+        flex-direction: row;
+}
+#leftArrowButton,#rightArrowButton{
+        margin: 10px;
+}
+th,td{
+        border: 2px solid ;
+        border-collapse:separate;
+        width: auto;
+}
+table{
+        border: 2px solid ;
+        
+}
+th,td{
+        margin: auto;
+        padding: 4px;
+        max-width: 20vw;
+        word-wrap: break-word;
+}
+#displayOrHideTable,#submitButton{
+        margin: 2%;
+}
+label{
+        font-weight: bold;
+}
