@@ -20,21 +20,19 @@ body{
 #leftArrowButton,#rightArrowButton{
         margin: 10px;
 }
-th,td{
-        border: 2px solid ;
-        border-collapse:separate;
-        width: auto;
+table,th,td{
+        border: 2px solid white;
+        border-collapse: collapse;
+        width: 100%;
+        overflow-x: auto;
+        text-align: center;
 }
-table{
-        border: 2px solid ;
-        
-}
-th,td{
-        margin: auto;
-        padding: 4px;
-        max-width: 20vw;
-        word-wrap: break-word;
-}
+.table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 20px;
+        text-align: center; 
+      }
 #displayOrHideTable,#submitButton{
         margin: 2%;
 }

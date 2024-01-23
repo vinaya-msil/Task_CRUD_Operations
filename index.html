@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--favicon-->
-        <link rel="icon" type="image/x-icon" href="images/icon.jpg">
+        <link rel="icon" type="image/x-icon" href="icon.jpg">
         <link rel="stylesheet" href="home.css"> 
         <title>Task</title>
 </head>
@@ -13,17 +13,17 @@
         <div class="main" id="main">
                 <section class="topSection inputForm">
                         <form class="form" id="form">
-                                        <pre><label for="userName">Name  :</label><input type="text" id="userName"></pre>
-                                        <pre><label for="userEmail">Email :</label><input type="email" id="userEmail"></pre>
-                                        <pre><label for="userPhone">Phone :</label><input type="tel" id="userPhone"></pre>
-                                        <pre><label for="userAge">Age   :</label><input type="number" id="userAge"></pre>
+                                        <pre><label for="userName">Name  :</label><input type="text" id="userName" required></pre>
+                                        <pre><label for="userEmail">Email :</label><input type="email" id="userEmail" required></pre>
+                                        <pre><label for="userPhone">Phone :</label><input type="tel" id="userPhone" required></pre>
+                                        <pre><label for="userAge">Age   :</label><input type="number" id="userAge" required></pre>
                         </form>
                 </section>
         </div>
         <p style="font-weight: bold;">Area Of Intrest</p>
         <div class="multiSelectBoxes" id="multiSelectBoxes">
                 <!-- Multiselect boxes -->
-                <select id="leftSelect" multiple style="width: 20vw;">
+                <select id="leftSelect" multiple style="width: 20vw;" required>
                 <option id="option1">Java</option>
                 <option id="option2">Python</option>
                 <option id="option3">JavaScript</option>
@@ -45,7 +45,46 @@
       <button id="submitButton" onclick="validateAndAdd()">Submit</button>
        <!-- // show or hide button -->
        <button id="displayOrHideTable" onclick="displayOrHideTable()"></button>
-       <div><!-- // details table -->
+       
+
+        <select name="noOfEntries" id="noOfEntries">
+                <option value=5>5</option>
+                <option value=10>10</option>
+                <option value=15>15</option>
+                <option value=25>25</option>
+        </select>
+
+<!-- 
+        // example table for editing practice -->
+        <!-- <table id="myTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td contenteditable="false">John Doe</td>
+                    <td contenteditable="false">john@example.com</td>
+                    <td contenteditable="false">25</td>
+                    <td><span class="edit-btn" onclick="editRow(this)">Edit</span></td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">Jane Doe</td>
+                    <td contenteditable="false">jane@example.com</td>
+                    <td contenteditable="false">30</td>
+                    <td><span class="edit-btn" onclick="editRow(this)">Edit</span></td>
+                  </tr>
+                </tbody>
+              </table> -->
+<!-- editing table for practice ends-->
+        <br><br>
+        <input type="text" id="searchInput" placeholder="Search by keyword">
+        <br><br><br>
+       <div class="table-container"><!-- // details table --><center>
                <table id="detailsTable">
                        <thead>
                                <th>Name</th>
@@ -53,11 +92,12 @@
                                <th>Phone</th>
                                <th>Age</th>
                                <th>Intrests</th>
+                               <th>Edit/Save</th>
                        </thead>
                        <tbody id="tableBody">
                                 
                        </tbody>
-               </table>
+               </table></center>
        </div>
        <!--nextAndPrevButtons-->
        <section class="nextAndPrevButtons">
