@@ -20,6 +20,9 @@ body{
 #leftArrowButton,#rightArrowButton{
         margin: 10px;
 }
+button{
+        margin: 10px;
+}
 table,th,td{
         border: 2px solid white;
         border-collapse: collapse;
@@ -30,12 +33,31 @@ table,th,td{
 .table-container {
         width: 100%;
         overflow-x: auto;
-        margin: 20px;
         text-align: center; 
       }
 #displayOrHideTable,#submitButton{
         margin: 2%;
 }
+td{
+        padding: 12px;
+}
 label{
         font-weight: bold;
+}
+#allInputs{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid black;
+        padding: 10px;
+}
+#submitButton{
+        background-color: aqua;
+        padding: 2%;
+        border-radius: 10px;
+}
+#leftArrowButton,#rightArrowButton{
+        background-color: greenyellow;
+        padding: 2%;
+        border-radius: 2px;
 }

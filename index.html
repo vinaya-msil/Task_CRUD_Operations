@@ -9,6 +9,7 @@
         <title>Task</title>
 </head>
 <body>
+        <section id="allInputs">
         <div class="main" id="main">
                 <section class="topSection inputForm">
                         <form class="form" id="form">
@@ -22,7 +23,7 @@
         <p style="font-weight: bold;">Area Of Intrest</p>
         <div class="multiSelectBoxes" id="multiSelectBoxes">
                 <!-- Multiselect boxes -->
-                <select id="leftSelect" multiple style="width: 40vw;" required>
+                <select id="leftSelect" multiple style="width: 30vw;" required>
                 <option id="option1">Java</option>
                 <option id="option2">Python</option>
                 <option id="option3">JavaScript</option>
@@ -38,7 +39,9 @@
               </select>
         </div>
         <!-- // submit button -->
-      <button id="submitButton" onclick="validateAndAdd()">Submit</button>
+        <button id="submitButton" onclick="validateAndAdd()">Submit</button>
+        </section>
+
        <!-- // show or hide button -->
        <button id="displayOrHideTable" onclick="displayOrHideTable()"></button>
         <select name="noOfEntries" id="noOfEntries">
@@ -50,7 +53,7 @@
         <br><br>
         <input type="text" id="searchInput" placeholder="Search by keyword">
         <br><br><br>
-       <div class="table-container"><!-- // details table --><center>
+       <div class="table-container"><!-- // details table -->
                <table id="detailsTable">
                        <thead>
                                <th>Name</th>
@@ -63,7 +66,7 @@
                        <tbody id="tableBody">
                                 
                        </tbody>
-               </table></center>
+               </table>
        </div>
        <!--nextAndPrevButtons-->
        <section class="nextAndPrevButtons">
