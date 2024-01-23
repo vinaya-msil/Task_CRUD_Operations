@@ -7,31 +7,25 @@ if (localStorage.getItem('locallyStoredObjectsLength')) {
         locallyStoredObjectsLength = localStorage.getItem('locallyStoredObjectsLength');
         lengthOfObject = locallyStoredObjectsLength;
 }
-
 //search functionality
 document.getElementById('searchInput').addEventListener('input', function () {
         // Get input value
         const searchValue = this.value.toLowerCase();
-
         // Get table rows
         const rows = document.getElementById('detailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
         // Loop through all rows
         for (let i = 0; i < rows.length; i++) {
                 const cells = rows[i].getElementsByTagName('td');
                 let rowContainsValue = false;
-
                 // Loop through cells in the current row
                 for (let j = 0; j < cells.length; j++) {
                         const cellText = cells[j].textContent.toLowerCase();
-
                         // Check if the cell text contains the search value
                         if (cellText.includes(searchValue)) {
                                 rowContainsValue = true;
                                 break;
                         }
                 }
-
                 // Show or hide the row based on whether it contains the search value
                 rows[i].style.display = rowContainsValue ? '' : 'none';
         }
@@ -48,7 +42,6 @@ let email = document.getElementById("userEmail");
 let phone = document.getElementById("userPhone");
 let age = document.getElementById("userAge");
 let areaOfIntrest = document.getElementById("rightSelect");
-
 // detailsTable
 document.getElementById("detailsTable").style.display = "none";
 let hide = false;
@@ -121,7 +114,6 @@ function validateAndAdd() {
         if (areaOfIntrestValue.length === 0) {
                 alert("please selct any one or more areas of intreset");
         }
-
         let keyPresent = false;
         for (let i = 1; i <= lengthOfObject; i++) {
                 if (user_name.value == localStorage.getItem("name" + i)) {
@@ -136,10 +128,10 @@ function validateAndAdd() {
         console.log(user_name.value in detailsArray);
         console.log(user_name.value);
         console.log(detailsArray);
-
+        // incrementing length of object
         lengthOfObject++;
+        // creating the table values based on data
         let dynamicRow = document.createElement("tr");
-
         let tdName = document.createElement("td");
         tdName.textContent = user_name.value;
         dynamicRow.appendChild(tdName);
@@ -154,24 +146,19 @@ function validateAndAdd() {
         dynamicRow.appendChild(tdAge);
         let tdEdit = document.createElement('button');
         tdEdit.textContent = "edit";
-        
-
-
-
+        // adding details to details array
         detailsArray["name" + lengthOfObject] = user_name.value;
         detailsArray["email" + lengthOfObject] = email.value;
         detailsArray["phone" + lengthOfObject] = phone.value;
         detailsArray["age" + lengthOfObject] = age.value;
-
         detailsArray["areaOfIntrest" + lengthOfObject] = areaOfIntrestValue;
-
         let tdAreaOfIntrest = document.createElement("td");
         tdAreaOfIntrest.textContent = areaOfIntrestValue;
         dynamicRow.appendChild(tdAreaOfIntrest);
         dynamicRow.appendChild(tdEdit);
         //appending the entire row to table
         table.appendChild(dynamicRow);
-
+        // setting the values to local storage 
         localStorage.setItem(("name" + lengthOfObject), user_name.value);
         localStorage.setItem(("email" + lengthOfObject), email.value);
         localStorage.setItem(("phone" + lengthOfObject), phone.value);
@@ -181,10 +168,10 @@ function validateAndAdd() {
         localStorage.setItem('editButton'+lengthOfObject);
         // editing content here
         tdEdit.addEventListener('click', updateDetails(localStorage.getItem(lengthOfObject)));
-        
+        // displaying entries in table
         displayEntries();
 }
-
+// function to update details
 function updateDetails(rowNumber) {
         let rows = tableBody.getElementsByTagName('tr');
         for(let i=0;i<rows.length;i++){
@@ -197,9 +184,7 @@ function updateDetails(rowNumber) {
                         }
                 }
         }
-
 }
-
 displayEntries();
 // Get the select element
 const selectedNoOfEntries = document.getElementById('noOfEntries');
@@ -223,41 +208,32 @@ function displayEntries() {
                 // console.log("currentStart :",currentStart);
                 // console.log(parseInt(currentStart) + parseInt(limitOfEntries));
                 // console.log(limitOfEntries);
-
                 if (locallyStoredObjectsLength > 0) {
-
                         if (!localStorage.getItem("name" + i)) {
                                 return;
                         }
-
                         let dynamic_row = document.createElement('tr');
                         dynamic_row.id = "row" + i;
-
                         let dynamic_name_data = document.createElement('td');
                         dynamic_name_data.textContent = localStorage.getItem("name" + i);
-
                         let dynamic_email_data = document.createElement('td');
                         dynamic_email_data.textContent = localStorage.getItem("email" + i);
-
                         let dynamic_phone_data = document.createElement('td');
                         dynamic_phone_data.textContent = localStorage.getItem("phone" + i);
-
                         let dynamic_age_data = document.createElement('td');
                         dynamic_age_data.textContent = localStorage.getItem("age" + i);
-
                         let dynamic_areaOfIntrest_data = document.createElement('td');
                         dynamic_areaOfIntrest_data.textContent = localStorage.getItem("intrests" + i);
-
                         let dynamic_edit_button = document.createElement("button");
                         dynamic_edit_button.textContent = "edit";
-                        
-
+                        // appending details
                         dynamic_row.appendChild(dynamic_name_data);
                         dynamic_row.appendChild(dynamic_email_data);
                         dynamic_row.appendChild(dynamic_phone_data);
                         dynamic_row.appendChild(dynamic_age_data);
                         dynamic_row.appendChild(dynamic_areaOfIntrest_data);
                         dynamic_row.appendChild(dynamic_edit_button);
+                        // appending entire row
                         tableBody.appendChild(dynamic_row);
                         // // adding event listener for edit button
                         dynamic_edit_button.addEventListener('click',updateDetails(i))

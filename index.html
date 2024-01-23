@@ -9,7 +9,6 @@
         <title>Task</title>
 </head>
 <body>
-
         <div class="main" id="main">
                 <section class="topSection inputForm">
                         <form class="form" id="form">
@@ -23,64 +22,31 @@
         <p style="font-weight: bold;">Area Of Intrest</p>
         <div class="multiSelectBoxes" id="multiSelectBoxes">
                 <!-- Multiselect boxes -->
-                <select id="leftSelect" multiple style="width: 20vw;" required>
+                <select id="leftSelect" multiple style="width: 40vw;" required>
                 <option id="option1">Java</option>
                 <option id="option2">Python</option>
                 <option id="option3">JavaScript</option>
                 <option id="option4">GoLang</option>
               </select>
-        
               <div>
                 <!-- Buttons to move options -->
                 <button id="leftArrowButton" onclick="moveOptions('leftSelect', 'rightSelect')"> &rarr; </button><br>
                 <button id="rightArrowButton" onclick="moveOptions('rightSelect', 'leftSelect')"> &larr; </button>
               </div>
-        
               <select id="rightSelect"  multiple>
                 <!-- Empty initially -->
               </select>
-
         </div>
         <!-- // submit button -->
       <button id="submitButton" onclick="validateAndAdd()">Submit</button>
        <!-- // show or hide button -->
        <button id="displayOrHideTable" onclick="displayOrHideTable()"></button>
-       
-
         <select name="noOfEntries" id="noOfEntries">
                 <option value=5>5</option>
                 <option value=10>10</option>
                 <option value=15>15</option>
                 <option value=25>25</option>
         </select>
-
-<!-- 
-        // example table for editing practice -->
-        <!-- <table id="myTable">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Age</th>
-                    <th>Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td contenteditable="false">John Doe</td>
-                    <td contenteditable="false">john@example.com</td>
-                    <td contenteditable="false">25</td>
-                    <td><span class="edit-btn" onclick="editRow(this)">Edit</span></td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">Jane Doe</td>
-                    <td contenteditable="false">jane@example.com</td>
-                    <td contenteditable="false">30</td>
-                    <td><span class="edit-btn" onclick="editRow(this)">Edit</span></td>
-                  </tr>
-                </tbody>
-              </table> -->
-<!-- editing table for practice ends-->
         <br><br>
         <input type="text" id="searchInput" placeholder="Search by keyword">
         <br><br><br>
@@ -104,7 +70,6 @@
                 <button id="prevButton" onclick="prevEntries()">Prev</button>
                 <button id="nextButton" onclick="nextEntries()">Next</button>
        </section>
-
         <script src="home.js"></script>
 </body>
 </html>
