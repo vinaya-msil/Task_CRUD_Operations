@@ -1,4 +1,5 @@
 let detailsArray = {};
+
 let lengthOfObject = 0;
 let limitOfEntries = 5;
 let locallyStoredObjectsLength = 0;
