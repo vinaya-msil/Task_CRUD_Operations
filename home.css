@@ -1,63 +1,99 @@
+input{
+    margin: 10px;
+    height: 20px;
+    border: 3px solid rgb(71, 71, 71);
+    border-radius: 12px;
+}
+.button{
+    padding: 10px;
+    margin: 20px;
+    border-radius: 12px;
+}
+#editButton,#deleteButton{
+    border-radius: 12px;
+    padding: 6px;
+}
 body{
-        background-color: rgb(196, 186, 220);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+#tableSection{
+    width: 100%;
+    height: 90vh;
+    border-radius: 12px;
+    text-align: center;
+
+}
+th{
+    position: sticky;
+    bottom: 0;
+    background-color: rgb(37, 121, 170);
+}
+.shiftButton{
+    padding: 0.5vw;
+    border-radius: 12px;
+    margin-top: 2.5vh;
+}
+th,td{
+    max-width: 100%;
+    width: 25vw;
+        overflow-wrap: break-word;
+        border: 3px solid darkgray;
+}
+table{
+    border-collapse: collapse;
+    overflow-x: auto;
+    border: 3px solid rgb(202, 199, 199);
+    width: 100vw;
+    max-width: 100%;
+}
+#multiSelectDiv{
+    display: flex;
+}
+#optionShiftButtons{
+    display: flex;
+    flex-direction: column;
+}
+#rightSelect,#leftSelect{
+    height: auto;
+    min-width: 80px;
+    width: auto;
+    border-radius: 12px;
+}
+.columnSearch{
+    width: 8.5vw;
+}
+.topSection{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto;
+}
+    /* th,td{
+        max-width: auto;
+        overflow-wrap: break-word;
+        border: 3px solid darkgray;
+    }
+    #tableSection{
+        height: 100%;
+        width: auto;
+    }
+    #multiSelectDiv{
         display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-}
-.inputForm{
-        display: flex;
-        flex-direction: column;
-        margin: 20px;
-}
-#leftSelect,#rightSelect{
-        width: 100%;
-}
-#multiSelectBoxes{
-        display: flex;
-        flex-direction: row;
-}
-#leftArrowButton,#rightArrowButton{
-        margin: 10px;
-}
-button{
-        margin: 10px;
-}
-table,th,td{
-        border: 2px solid white;
-        border-collapse: collapse;
-        width: 100%;
-        overflow-x: auto;
-        text-align: center;
-}
-.table-container {
-        width: 100%;
-        overflow-x: auto;
-        text-align: center; 
-      }
-#displayOrHideTable,#submitButton{
-        margin: 2%;
-}
-td{
-        padding: 12px;
-}
-label{
-        font-weight: bold;
-}
-#allInputs{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    }
+    .topSection{
+        height: 100%;
         border: 2px solid black;
-        padding: 10px;
-}
-#submitButton{
-        background-color: aqua;
-        padding: 2%;
-        border-radius: 10px;
-}
-#leftArrowButton,#rightArrowButton{
-        background-color: greenyellow;
-        padding: 2%;
-        border-radius: 2px;
+        width: 95vw;
+    } */
+#showOrHideButton{
+    padding: 7px;
+    margin: 20px;
+    border: 2px solid darkgray;
+    border-radius: 12px;
 }

@@ -3,76 +3,104 @@
 <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--favicon-->
-        <link rel="icon" type="image/x-icon" href="icon.jpg">
-        <link rel="stylesheet" href="home.css"> 
-        <title>Task</title>
+        <title>MyTask</title>
+        <link rel="stylesheet" href="home.css">
 </head>
 <body>
-        <section id="allInputs">
-        <div class="main" id="main">
-                <section class="topSection inputForm">
-                        <form class="form" id="form">
-                                        <pre><label for="userName">Name  :</label><input type="text" id="userName" required></pre>
-                                        <pre><label for="userEmail">Email :</label><input type="email" id="userEmail" required></pre>
-                                        <pre><label for="userPhone">Phone :</label><input type="tel" id="userPhone" required></pre>
-                                        <pre><label for="userAge">Age   :</label><input type="number" id="userAge" required></pre>
-                        </form>
+        <div class="topSection" id="tableSection2">
+                <!--Form Input name, phone email age gender -->
+                <form class="inputForm" id="inputForm">
+                        <label for="nameInput">Name :</label>
+                        <input type="text"  id="nameInput"><br>
+                        <label for="phoneInput">Phone :</label>
+                        <input type="tel"  id="phoneInput"><br>
+                        <label for="emailInput">Email :</label>
+                        <input type="email"  id="emailInput"><br>
+                        <label for="ageInput">Age :</label><input type="number"  id="ageInput"><br>
+                        <input type="radio" name="genderMale" value="male" style="margin-top:20px;" id="genderMale">
+                        <label for="genderMale">Male</label>
+                        <input type="radio" name="genderFemale" style="margin: 0px; margin-left: 10px;"  value="female" id="genderFemale">
+                        <label for="genderFemale">Female</label>
+                </form>
+                <!--MultiSelect Input-->
+                <div id="multiSelectDiv">
+                        <select id="leftSelect" multiple >
+                                <optgroup id="optionGroupLeft">
+                                        <option id="option1">c</option>
+                                        <option id="option2">Java</option>
+                                        <option id="option3">Python</option>
+                                        <option id="option4">HTML</option>
+                                </optgroup>
+                        </select>
+                        <div id="optionShiftButtons">
+                                <button class="shiftButton" id="rightShiftButton" onclick="moveOptions('leftSelect', 'rightSelect')"><strong>&rarr;</strong></button>
+                                <button class="shiftButton" id="leftShiftButton" onclick="moveOptions('rightSelect', 'leftSelect')"><strong>&larr;</strong></button>
+                        </div>
+                        <select id="rightSelect" multiple  >
+                                <optgroup id="optionGroupRight">
+                                </optgroup>
+                        </select>
+                </div>
+                <!--Submit Button-->
+                <button class="button" id="submitButton" onclick="validateForm()">Submit</button>
+                <button class="button"  id="resetButton" onclick="resetDetails()">Reset</button>
+                
+        </div>
+        <button id="showOrHideButton" onclick="showOrHideButton()"></button><br>
+        <section class="tableSection" id="tableSection">
+                
+                <button onclick="sortTable()">sort</button>
+
+                <input type="text" placeholder="Global Search" id="globalSearch">
+                <!-- // show or hide button -->
+                <select name="noOfEntries" id="noOfEntries">
+                        <option value=5>5</option>
+                        <option value=10>10</option>
+                        <option value=15>15</option>
+                        <option value=25>25</option>
+                </select>
+                <br><br>
+                <!--nextAndPrevButtons-->
+                <section class="nextAndPrevButtons">
+                        <button id="prevButton" onclick="prevEntries()">Prev</button>
+                        <button id="nextButton" onclick="nextEntries()">Next</button>
                 </section>
-        </div>
-        <p style="font-weight: bold;">Area Of Intrest</p>
-        <div class="multiSelectBoxes" id="multiSelectBoxes">
-                <!-- Multiselect boxes -->
-                <select id="leftSelect" multiple style="width: 30vw;" required>
-                <option id="option1">Java</option>
-                <option id="option2">Python</option>
-                <option id="option3">JavaScript</option>
-                <option id="option4">GoLang</option>
-              </select>
-              <div>
-                <!-- Buttons to move options -->
-                <button id="leftArrowButton" onclick="moveOptions('leftSelect', 'rightSelect')"> &rarr; </button><br>
-                <button id="rightArrowButton" onclick="moveOptions('rightSelect', 'leftSelect')"> &larr; </button>
-              </div>
-              <select id="rightSelect"  multiple>
-                <!-- Empty initially -->
-              </select>
-        </div>
-        <!-- // submit button -->
-        <button id="submitButton" onclick="validateAndAdd()">Submit</button>
+                <table id="detailsTable" class="detailsTable">
+                        <thead id="tableHead">
+                        <th id="nameHeadInTable">Name<button onclick="sortColumn('name')">↑</button><button>↓</button><br><input class="columnSearch" id="nameSearch" type="text" placeholder="search Name"></th>
+                        <th id="phoneHeadInTable">Phone<button onclick="sortColumn('phone')">↑</button><button>↓</button><br><input class="columnSearch"  id="phoneSearch" type="text" placeholder="search phone"></th>
+                        <th id="emailHeadInTable">Email<button onclick="sortColumn('email')">↑</button><button>↓</button><br><input class="columnSearch"  id="emailSearch" type="text" placeholder="search email"></th>
+                        <th id="ageHeadInTable">Age<button onclick="sortColumn('age')">↑</button><button>↓</button><br><input class="columnSearch"  id="ageSearch" type="text" placeholder="search age"></th>
+                        <th id="intrestsInTable">Intrests<button onclick="sortColumn('intrests')">↑</button><button>↓</button><br><input class="columnSearch"  id="intrestsSearch" type="text" placeholder="search intrests"></th>
+                        <th id="editInTable">Edit / Delete</th>
+                        <th id="dateAndTime">Created / Edited<button onclick="sortColumn('create')">↑</button><button>↓</button><br><input class="columnSearch"  id="dateSearch" type="text" placeholder="search date"></th>
+                        </thead>
+                        <tbody id="tableBody"> 
+                                <!-- // table body will add here -->
+                                <tr>
+                                        <td>wsexdrc</td>
+                                        <td>wsexdrc</td>
+                                        <td>wsexdrc</td>
+                                        <td>wsexdrc</td>
+                                        <td>wsexdrc</td>
+                                        <td id="editOrDeleteButtons"><button id="editButton">Edit</button><button id="deleteButton">Delete</button></td>
+                                        <td id="dateAndTimeValue"></td>
+                                </tr>
+                        </tbody>
+                        <tfoot>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Age</th>
+                                <th>Intrests</th>
+                                <th>Edit / Delete</th>
+                                <th>Created / Edited</th>
+                        </tfoot>
+                </table>
+                
         </section>
 
-       <!-- // show or hide button -->
-       <button id="displayOrHideTable" onclick="displayOrHideTable()"></button>
-        <select name="noOfEntries" id="noOfEntries">
-                <option value=5>5</option>
-                <option value=10>10</option>
-                <option value=15>15</option>
-                <option value=25>25</option>
-        </select>
-        <br><br>
-        <input type="text" id="searchInput" placeholder="Search by keyword">
-        <br><br><br>
-       <div class="table-container"><!-- // details table -->
-               <table id="detailsTable">
-                       <thead>
-                               <th>Name</th>
-                               <th>Email</th>
-                               <th>Phone</th>
-                               <th>Age</th>
-                               <th>Intrests</th>
-                               <th>Edit/Save</th>
-                       </thead>
-                       <tbody id="tableBody">
-                                
-                       </tbody>
-               </table>
-       </div>
-       <!--nextAndPrevButtons-->
-       <section class="nextAndPrevButtons">
-                <button id="prevButton" onclick="prevEntries()">Prev</button>
-                <button id="nextButton" onclick="nextEntries()">Next</button>
-       </section>
+
         <script src="home.js"></script>
 </body>
 </html>
