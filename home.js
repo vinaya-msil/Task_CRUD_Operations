@@ -134,16 +134,18 @@ function validateDetails(){
     // adding all details to the array
     let tempDetailsObject = {'name':nameElement.value,'phone':phoneElement.value,'email':emailElement.value,
         'age':ageElement.value,'male':genderMaleElement.checked,'female':genderFemaleElement.checked,'intrests':areaOfIntrestValue,
-        'date':dateValue.getHours() + "hr " + dateValue.getMinutes() + "mins " + dateValue.getSeconds()
+        'date':dateValue.getFullYear()+dateValue.getMonth()+dateValue.getDate()+" "+dateValue.getHours() + "hr " + dateValue.getMinutes() + "mins " + dateValue.getSeconds()
     }
     //making details unique
-    let lengthOfArray = detailsArray.length;
+    if(edit !=true){
+        let lengthOfArray = detailsArray.length;
     for(let i=0;i<lengthOfArray;i++){
         if(detailsArray[i]['name'] == nameElement.value){
             alert ('User with same details already present try another');
             addData = false;
             return;
         }
+    }
     }
     // pushing that array to local storage
     detailsArray.push(tempDetailsObject);
@@ -191,11 +193,11 @@ function createTable(detailsArray, pageLimit, pageStart) {
 
         let tempEditOrDelete = document.createElement('td');
         let tempEditButton = document.createElement('button');
-        tempEditButton.className = 'editOrDeleteButtons';
+        tempEditButton.className = 'editOrDeleteButtons button';
         tempEditButton.textContent = "edit";
         let tempDeleteButton = document.createElement('button');
         tempDeleteButton.textContent = "delete";
-        tempDeleteButton.className = 'editOrDeleteButtons';
+        tempDeleteButton.className = 'editOrDeleteButtons button';
         tempDeleteButton.addEventListener('click',()=>{
             deleteDetails(i);
         });
@@ -353,6 +355,7 @@ function editDetails(index){
     let saveButton = document.createElement('button');
     saveButton.textContent = "SAVE";
     saveButton.className = 'button';
+    saveButton.id = "saveButton";
     saveButton.addEventListener('click',()=>{
         saveDetails(index);
     })
@@ -375,6 +378,7 @@ function saveDetails(index){
 
     resetDetails();
     document.getElementById('submitButton').style.display = 'block';
+    document.getElementById('saveButton').style.display = 'none';
 }
 function arrayDifference(arr1, arr2) {
     return arr1.filter(item => !arr2.includes(item));
