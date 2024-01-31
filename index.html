@@ -12,13 +12,19 @@
                 <form class="inputForm" id="inputForm">
                         <label for="nameInput">Name :</label>
                         <input type="text"  id="nameInput"><br>
+
                         <label for="phoneInput">Phone :</label>
                         <input type="tel"  id="phoneInput"><br>
+
                         <label for="emailInput">Email :</label>
                         <input type="email"  id="emailInput"><br>
-                        <label for="ageInput">Age :</label><input type="number"  id="ageInput"><br>
+
+                        <label for="ageInput">Age :</label>
+                        <input type="number"  id="ageInput"><br>
+
                         <input type="radio" name="genderMale" value="male" style="margin-top:20px;" id="genderMale">
                         <label for="genderMale">Male</label>
+
                         <input type="radio" name="genderFemale" style="margin: 0px; margin-left: 10px;"  value="female" id="genderFemale">
                         <label for="genderFemale">Female</label>
                 </form>
@@ -48,12 +54,12 @@
         </div>
         <button id="showOrHideButton" onclick="showOrHideButton()"></button><br>
         <section class="tableSection" id="tableSection">
-                
-                <button onclick="sortTable()">sort</button>
+<!--                 
+                <button onclick="sortTable()">sort</button> -->
 
                 <input type="text" placeholder="Global Search" id="globalSearch">
                 <!-- // show or hide button -->
-                <select name="noOfEntries" id="noOfEntries">
+                <select class="button" name="noOfEntries" id="noOfEntries">
                         <option value=5>5</option>
                         <option value=10>10</option>
                         <option value=15>15</option>
@@ -62,41 +68,34 @@
                 <br><br>
                 <!--nextAndPrevButtons-->
                 <section class="nextAndPrevButtons">
-                        <button id="prevButton" onclick="prevEntries()">Prev</button>
-                        <button id="nextButton" onclick="nextEntries()">Next</button>
+                        <button class="button" id="prevButton" onclick="prevEntries()">Prev</button>
+                        <button class="button" id="nextButton" onclick="nextEntries()">Next</button>
                 </section>
-                <table id="detailsTable" class="detailsTable">
-                        <thead id="tableHead">
-                        <th id="nameHeadInTable">Name<button onclick="sortColumn('name')">↑</button><button>↓</button><br><input class="columnSearch" id="nameSearch" type="text" placeholder="search Name"></th>
-                        <th id="phoneHeadInTable">Phone<button onclick="sortColumn('phone')">↑</button><button>↓</button><br><input class="columnSearch"  id="phoneSearch" type="text" placeholder="search phone"></th>
-                        <th id="emailHeadInTable">Email<button onclick="sortColumn('email')">↑</button><button>↓</button><br><input class="columnSearch"  id="emailSearch" type="text" placeholder="search email"></th>
-                        <th id="ageHeadInTable">Age<button onclick="sortColumn('age')">↑</button><button>↓</button><br><input class="columnSearch"  id="ageSearch" type="text" placeholder="search age"></th>
-                        <th id="intrestsInTable">Intrests<button onclick="sortColumn('intrests')">↑</button><button>↓</button><br><input class="columnSearch"  id="intrestsSearch" type="text" placeholder="search intrests"></th>
-                        <th id="editInTable">Edit / Delete</th>
-                        <th id="dateAndTime">Created / Edited<button onclick="sortColumn('create')">↑</button><button>↓</button><br><input class="columnSearch"  id="dateSearch" type="text" placeholder="search date"></th>
-                        </thead>
-                        <tbody id="tableBody"> 
-                                <!-- // table body will add here -->
-                                <tr>
-                                        <td>wsexdrc</td>
-                                        <td>wsexdrc</td>
-                                        <td>wsexdrc</td>
-                                        <td>wsexdrc</td>
-                                        <td>wsexdrc</td>
-                                        <td id="editOrDeleteButtons"><button id="editButton">Edit</button><button id="deleteButton">Delete</button></td>
-                                        <td id="dateAndTimeValue"></td>
-                                </tr>
-                        </tbody>
-                        <tfoot>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Age</th>
-                                <th>Intrests</th>
-                                <th>Edit / Delete</th>
-                                <th>Created / Edited</th>
-                        </tfoot>
-                </table>
+                <div id="detailsTableContainer">
+                        <table id="detailsTable" class="detailsTable">
+                                <thead id="tableHead">
+                                <th id="nameHeadInTable" onclick="sortTable(0)" >Name<br><input class="columnSearch" id="nameSearch" type="text" placeholder="search Name"></th>
+                                <th id="phoneHeadInTable" onclick="sortTable(1)" >Phone<br><input class="columnSearch"  id="phoneSearch" type="text" placeholder="search phone"></th>
+                                <th id="emailHeadInTable" onclick="sortTable(2)" >Email<br><input class="columnSearch"  id="emailSearch" type="text" placeholder="search email"></th>
+                                <th id="ageHeadInTable" onclick="sortTable(3)" >Age<br><input class="columnSearch"  id="ageSearch" type="text" placeholder="search age"></th>
+                                <th id="intrestsInTable" onclick="sortTable(4)" >Intrests<br><input class="columnSearch"  id="intrestsSearch" type="text" placeholder="search intrests"></th>
+                                <th id="editInTable">Edit / Delete</th>
+                                <th id="dateAndTime" onclick="sortTable(6)" >Created / Edited<br><input class="columnSearch"  id="dateSearch" type="text" placeholder="search date"></th>
+                                </thead>
+                                <tbody id="tableBody"> 
+                                        
+                                </tbody>
+                                <tfoot>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Age</th>
+                                        <th>Intrests</th>
+                                        <th>Edit / Delete</th>
+                                        <th>Created / Edited</th>
+                                </tfoot>
+                        </table>
+                </div>
                 
         </section>
 

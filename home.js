@@ -1,55 +1,20 @@
-let currentDate = new Date();
-currentDate = currentDate.getHours() + currentDate.getMinutes() + currentDate.getSeconds();
+let table = document.getElementById('detailsTable');
 let tableBody = document.getElementById('tableBody');
 let phoneElement = document.getElementById("phoneInput");
 let nameElement = document.getElementById("nameInput");
 let emailElement = document.getElementById('emailInput');
 let ageElement = document.getElementById('ageInput');
 let genderMaleElement = document.getElementById('genderMale');
-let currentStart = 1;
-let pageLimit = 5;
-let limitNoOfEntries = document.getElementById('noOfEntries');
 let genderFemaleElement = document.getElementById('genderFemale');
-let showOrHideButtonElement = document.getElementById('showOrHideButton');
-let globalSearchElement = document.getElementById('globalSearch');
-let presentCount = localStorage.getItem('presentCount');
-let rightSelect = document.getElementById("rightSelect");
-var areaOfIntrestValue = "";
-console.log(presentCount);
-// // storage object
-let myStorage = {};
-if(localStorage.getItem('data')){
-    myStorage = JSON.parse(localStorage.getItem('data'));
-}
-// validating form
-showOrHideButtonElement.textContent = 'HIDE';
-globalSearchElement.style.display = 'block';
-let table = document.getElementById('detailsTable');
-table.style.display = "block";
+let areaOfIntrestValue = "";
+let pageLimit = 5;
+let pageStart = 0;
+let dateValue = new Date();
+let newElement = true;
 let show = true;
-let addData = true;
-function validateForm(){
-    validateDetails();
-    if(addData){
-        addToMyStorage();
-    }
-    makeTable(currentStart,limitNoOfEntries.value);
-}
-// making that in age input field to enter only digits
-ageElement.addEventListener('input',() =>{
-    ageElement.value = ageElement.value.replace(/\D/g,'');
-    if((ageElement.value)>120){
-        alert('invalid age > 120');
-    }
-})
-// making that in phone input field to enter only digits
-phoneElement.addEventListener('input',() =>{
-    phoneElement.value = phoneElement.value.replace(/\D/g,'');
-})
-// making that in name input field to enter only characters and spaces
-nameElement.addEventListener('input',()=>{
-    nameElement.value = nameElement.value.replace(/[^a-zA-Z\s]/g,'');
-})
+let edit = false;
+let showOrHideButtonElement = document.getElementById('showOrHideButton');
+showOrHideButtonElement.textContent = 'HIDE';
 function showOrHideButton(){
     if(show){
         showOrHideButtonElement.textContent= 'SHOW';
@@ -67,34 +32,14 @@ function showOrHideButton(){
         
     }
 }
-function addToMyStorage() {
-    if (presentCount == null) {
-        addToLocalStorage('presentCount', 0);
-        console.log(presentCount);
-    }
-
-    presentCount = localStorage.getItem('presentCount');
-    presentCount = parseInt(presentCount) || 0; // Convert to number and handle NaN case
-    const tempObject = {
-        'name': nameElement.value,
-        'phone': phoneElement.value,
-        'email': emailElement.value,
-        'age': ageElement.value,
-        'genderMale': genderMaleElement.checked,
-        'genderFemale': genderFemaleElement.checked,
-        'dateCreated': currentDate,
-        'dateEdited': currentDate,
-        'areaOfIntrests' : areaOfIntrestValue
-    }
-
-    presentCount = presentCount + 1;  // Increment after creating the new entry
-    myStorage['entry' + presentCount] = tempObject;
-    localStorage.setItem('data', JSON.stringify(myStorage));
-    localStorage.setItem('presentCount', presentCount);  // Update presentCount in local storage
-    console.log('data', localStorage.getItem('data'), myStorage);
+// details array
+let detailsArray = [];
+if(localStorage.getItem('data')){
+    detailsArray = JSON.parse(localStorage.getItem('data'));
 }
-function addToLocalStorage(id,data){
-    localStorage.setItem(id,data);
+createTable(detailsArray,pageLimit,pageStart);
+if(localStorage.getItem('data')){
+    detailsArray = JSON.parse(localStorage.getItem('data'));
 }
 //moving options
 function moveOptions(sourceId, destinationId) {
@@ -111,6 +56,35 @@ function moveOptions(sourceId, destinationId) {
             }
     }
 }
+// making that in age input field to enter only digits
+ageElement.addEventListener('input',() =>{
+    ageElement.value = ageElement.value.replace(/\D/g,'');
+    if((ageElement.value)>120){
+        alert('invalid age > 120');
+    }
+})
+// making that in phone input field to enter only digits
+phoneElement.addEventListener('input',() =>{
+    phoneElement.value = phoneElement.value.replace(/\D/g,'');
+})
+// making that in name input field to enter only characters and spaces
+nameElement.addEventListener('input',()=>{
+    nameElement.value = nameElement.value.replace(/[^a-zA-Z\s]/g,'');
+})
+//form validation
+let addData = true;
+function validateForm(){
+    validateDetails();
+    if(addData){
+        console.log('completed Validation');
+    }
+    newElement = true;
+    resetDetails();
+    createTable(detailsArray,pageLimit,pageStart);
+}
+
+
+// validating details
 function validateDetails(){
     
     for (var i = 0; i < rightSelect.options.length; i++) {
@@ -151,337 +125,318 @@ function validateDetails(){
     for (var i = 0; i < rightSelect.options.length; i++) {
         areaOfIntrestValue = areaOfIntrestValue + rightSelect.options[i].value + ",";
     }
-
-}
-makeTable(currentStart,limitNoOfEntries.value);
-function makeTable(currentStart,pageLimit){
-    let myStorage = {};
-    if(localStorage.getItem('data')){
-        myStorage = JSON.parse(localStorage.getItem('data'));
+    if(newElement = true){
+        dateValue = new Date();
     }
-    tableBody.innerHTML = "";
-    
-    for(let i=currentStart;i<(parseInt(currentStart) + parseInt(pageLimit));i++){
-        if(!(myStorage['entry'+(presentCount-i)])){
-            console.log("stopped executing","current start ",currentStart,"present count ",presentCount);
+    if(edit == true){
+        return;
+    }
+    // adding all details to the array
+    let tempDetailsObject = {'name':nameElement.value,'phone':phoneElement.value,'email':emailElement.value,
+        'age':ageElement.value,'male':genderMaleElement.checked,'female':genderFemaleElement.checked,'intrests':areaOfIntrestValue,
+        'date':dateValue.getHours() + "hr " + dateValue.getMinutes() + "mins " + dateValue.getSeconds()
+    }
+    //making details unique
+    let lengthOfArray = detailsArray.length;
+    for(let i=0;i<lengthOfArray;i++){
+        if(detailsArray[i]['name'] == nameElement.value){
+            alert ('User with same details already present try another');
+            addData = false;
             return;
         }
-        let tempTr = document.createElement('tr');
-        let temptdName = document.createElement('td');
-        temptdName.textContent = myStorage['entry'+(presentCount-i+1)]['name'];
-        let temptdPhone = document.createElement('td');
-        temptdPhone.textContent = myStorage['entry'+(presentCount-i+1)]['phone'];
-        let temptdEmail = document.createElement('td');
-        temptdEmail.textContent = myStorage['entry'+(presentCount-i+1)]['email'];
-        let temptdAge = document.createElement('td');
-        temptdAge.textContent = myStorage['entry'+(presentCount-i+1)]['age'];
-        let temptdIntrests = document.createElement('td');
-        temptdIntrests.textContent = myStorage['entry'+(presentCount-i+1)]['areaOfIntrests'];
-        // creating edit and delete button
-        let tempEditButton = document.createElement('button');
-        let tempDeleteButton = document.createElement('button');
-        tempEditButton.textContent = 'Edit';
-
-        tempEditButton.addEventListener('click',function(){
-            // console.log('here we are editing',myStorage['entry'+(presentCount-i)]);
-            editDetails(myStorage['entry'+(presentCount-i+1)],presentCount-i+1);
-        });
-        
-        tempDeleteButton.textContent = 'Delete';
-        let tempButtons = document.createElement('td');
-        tempDeleteButton.addEventListener('click',function(){
-            // console.log('here we are deleting',myStorage['entry'+(presentCount-i)]);
-            deleteDetails(presentCount-i);
-        });
-        tempButtons.appendChild(tempEditButton);
-        tempButtons.appendChild(tempDeleteButton);
-        let temptdCreateOrEdit = document.createElement('td');
-        temptdCreateOrEdit.textContent = myStorage['entry'+(presentCount-i)]['dateCreated'];
-        tempTr.appendChild(temptdName);
-        tempTr.appendChild(temptdPhone);
-        tempTr.appendChild(temptdEmail);
-        tempTr.appendChild(temptdAge);
-        tempTr.appendChild(temptdIntrests);
-        tempTr.appendChild(tempButtons);
-        tempTr.appendChild(temptdCreateOrEdit);
-        
-        tableBody.appendChild(tempTr);
     }
-
-    console.log("no of entries ",Object.keys(myStorage).length);
+    // pushing that array to local storage
+    detailsArray.push(tempDetailsObject);
+    console.log(detailsArray);
+    localStorage.setItem('data',JSON.stringify(detailsArray));
 }
-//search functionality
-document.getElementById('globalSearch').addEventListener('input', function () {
-    // Get input value
-    const searchValue = this.value.toLowerCase();
-
-    // Get table rows
-    const rows = document.getElementById('detailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    // Loop through all rows
-    for (let i = 0; i < rowsLength; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let rowContainsValue = false;
-
-            // Loop through cells in the current row
-            for (let j = 0; j < cells.length; j++) {
-                    const cellText = cells[j].textContent.toLowerCase();
-
-                    // Check if the cell text contains the search value
-                    if (cellText.includes(searchValue)) {
-                            rowContainsValue = true;
-                            break;
-                    }
-            }
-
-            // Show or hide the row based on whether it contains the search value
-            rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-
-function editDetails(editingObject, entryIndex) {
-    document.getElementById('submitButton').style.display = 'none';
-    console.log('editingObject editingObject ', editingObject);
-    nameElement.value = editingObject['name'];
-    phoneElement.value = editingObject['phone'];
-    emailElement.value = editingObject['email'];
-    ageElement.value = editingObject['age'];
-    genderFemaleElement.checked = editingObject['genderFemale'],
-    genderMaleElement.checked = editingObject['genderMale'];
-    makeTable(currentStart, limitNoOfEntries.value);
-
-    let saveButton = document.createElement('button');
-    saveButton.textContent = "SAVE";
-    saveButton.className = 'button';
-    saveButton.id = 'saveButton';
-    let topSection = document.getElementById('tableSection2');
-    topSection.appendChild(saveButton);
-    saveButton.addEventListener('click', () => {
-        saveDetails(editingObject, entryIndex);
-    });
-    makeTable(currentStart, limitNoOfEntries.value);
-}
-
-function saveDetails(editingObject, entryIndex) {
-    editingObject['name'] = nameElement.value;
-    editingObject['phone'] = phoneElement.value;
-    editingObject['email'] = emailElement.value;
-    editingObject['age'] = ageElement.value;
-    editingObject['genderFemale'] = genderFemaleElement.checked;
-    editingObject['genderMale'] = genderMaleElement.checked;
-    myStorage['entry' + entryIndex] = editingObject;
-    localStorage.setItem('data', JSON.stringify(myStorage));
-    document.getElementById('saveButton').style.display = 'none';
-    document.getElementById('submitButton').style.display = 'block';
-    location.reload();
-}
-
-// searches Name
-document.getElementById('nameSearch').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[0].textContent.toLowerCase();
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-
-// searches phone
-document.getElementById('phoneSearch').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[1].textContent.toLowerCase();
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-
-// searches email
-document.getElementById('emailSearch').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[2].textContent.toLowerCase();
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-// searches age
-document.getElementById('ageSearch').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[3].textContent.toLowerCase();
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-// searches intrests
-document.getElementById('intrestsSearch').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[4].textContent.toLowerCase();
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-//resetting form
+//resetting form details
 function resetDetails(){
     var form = document.getElementById("inputForm");
     form.reset();
-
-}
-// search dates
-document.getElementById('dateAndTime').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.getElementById('detailsTable')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    let rowsLength = presentCount;
-    for (let i = 0; i < rowsLength; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        const firstCellText = cells[5].textContent.toLowerCase(); 
-        const rowContainsValue = firstCellText.includes(searchValue);
-        rows[i].style.display = rowContainsValue ? '' : 'none';
-    }
-});
-
-function deleteDetails(rowNumber){
-    // console.log(delete myStorage['entry'+rowNumber]);
     
-    // myStorage = JSON.parse(localStorage.getItem('data'));
-    // delete myStorage['entry'+rowNumber];
-    // localStorage.setItem('data',JSON.stringify(myStorage));
-    // console.log('makeTable(currentStart,limitNoOfEntries.value);',currentStart,'  ',limitNoOfEntries.value );
-    // makeTable(currentStart, limitNoOfEntries.value);
-    // location.reload();
-}
-console.log(myStorage);
-// sorting function 
-function sortTable() {
-    // Get the table
-    let table = document.getElementById('detailsTable');
-
-    // Get the rows of the tbody
-    let rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
-    // Convert the HTMLCollection to an array for easier manipulation
-    let rowsArray = Array.from(rows);
-
-    // Sort the array based on the text content of the first cell in each row
-    rowsArray.sort((a, b) => {
-        let aValue = a.cells[0].textContent.trim();
-        let bValue = b.cells[0].textContent.trim();
-
-        // Convert values to numbers for numeric sorting
-        return isNaN(aValue) || isNaN(bValue) ? aValue.localeCompare(bValue) : aValue - bValue;
-    });
-
-    // Clear the existing table body content
-    table.getElementsByTagName('tbody')[0].innerHTML = '';
-
-    // Append the sorted rows back to the table body
-    rowsArray.forEach(row => {
-        table.getElementsByTagName('tbody')[0].appendChild(row);
-    });
 }
 
-function nextEntries() {
-    let tempLimit = limitNoOfEntries.value;
-    console.log('currentStart,pageLimit',currentStart,tempLimit);
-    console.log("next");
-    
-    console.log("next clicked");
-    if(currentStart>Object.keys(myStorage).length){
+//creating the table based on the data array
+function createTable(detailsArray, pageLimit, pageStart) {
+    if (pageStart > detailsArray.length) {
         return;
     }
-    if(currentStart<Object.keys(myStorage).length){
-        if((parseInt(currentStart) + parseInt(tempLimit))>Object.keys(myStorage).length){
-            makeTable(currentStart,Object.keys(myStorage).length);
+
+    tableBody.innerHTML = "";
+    let tempLimit = pageStart + pageLimit;
+
+    for (let i = pageStart; i < detailsArray.length; i++) {
+        if (i >= tempLimit) {
             return;
         }
+
+        let tempRow = document.createElement('tr');
+        let tempName = document.createElement('td');
+        tempName.textContent = detailsArray[i]['name'];
+        let tempPhone = document.createElement('td');
+        tempPhone.textContent = detailsArray[i]['phone'];
+        let tempEmail = document.createElement('td');
+        tempEmail.textContent = detailsArray[i]['email'];
+        let tempAge = document.createElement('td');
+        tempAge.textContent = detailsArray[i]['age'];
+        let tempIntrests = document.createElement('td');
+        tempIntrests.textContent = detailsArray[i]['intrests'];
+        
+
+        // Move the dateValue inside the loop to generate a new date for each entry
+        let tempCreatedOrEditedDate = document.createElement('td');
+        
+        tempCreatedOrEditedDate.textContent = detailsArray[i]['date'];
+
+        let tempEditOrDelete = document.createElement('td');
+        let tempEditButton = document.createElement('button');
+        tempEditButton.className = 'editOrDeleteButtons';
+        tempEditButton.textContent = "edit";
+        let tempDeleteButton = document.createElement('button');
+        tempDeleteButton.textContent = "delete";
+        tempDeleteButton.className = 'editOrDeleteButtons';
+        tempDeleteButton.addEventListener('click',()=>{
+            deleteDetails(i);
+        });
+        tempEditButton.addEventListener('click',()=>{
+            editDetails(i);
+        })
+        tempEditOrDelete.appendChild(tempEditButton);
+        tempEditOrDelete.appendChild(tempDeleteButton);
+
+        tempRow.appendChild(tempName);
+        tempRow.appendChild(tempPhone);
+        tempRow.appendChild(tempEmail);
+        tempRow.appendChild(tempAge);
+        tempRow.appendChild(tempIntrests);
+        tempRow.appendChild(tempEditOrDelete);
+        tempRow.appendChild(tempCreatedOrEditedDate);
+
+        tableBody.appendChild(tempRow);
     }
-    currentStart = parseInt(currentStart) + parseInt(tempLimit);
-    makeTable(currentStart,tempLimit);
 }
-noOfEntries.addEventListener('input', function () {
-    pageLimit = limitNoOfEntries.value; 
-    makeTable(currentStart,pageLimit);
-});
+
+// next entries
+function nextEntries() {
+    newElement = false;
+    pageStart = pageStart + pageLimit;
+    console.log("prev start", "page start",pageStart,"page limit",pageLimit);
+    if(pageStart>detailsArray.length){
+        pageStart = pageStart-pageLimit;
+        createTable(detailsArray,pageLimit,pageStart);
+        return;
+    }
+    console.log('pageStart',pageStart);
+    createTable(detailsArray,pageLimit,pageStart);
+}
+// prev entries
 function prevEntries() {
-    let tempLimit2 = limitNoOfEntries.value;
-    console.log("prev");
-    currentStart = currentStart - tempLimit2;
-    
-    if(currentStart<1){
-        currentStart = 1;
+    newElement = false;
+    pageStart = pageStart - (pageLimit);
+    console.log("prev start", "page start",pageStart,"page limit",pageLimit);
+    if(pageStart<1){
+        pageStart = 0;
+        createTable(detailsArray,pageLimit,pageStart);
+        console.log("prev ended");
+        return;
     }
-    console.log('currentStart,pageLimit',currentStart,tempLimit2);
-    makeTable(currentStart,tempLimit2);
-    console.log("prev clicked");
+    createTable(detailsArray,pageLimit,pageStart);
 }
 
-// sorting function 
-function sortColumn(columnName) {
-    // Get the table
-    let table = document.getElementById('detailsTable');
+// Add an event listener for the 'input' event on the search input
+let searchInput = document.getElementById('globalSearch');
+searchInput.addEventListener('input', function () {
+    searchTable();
+});
 
-    let columnValue = 0;
-    if(columnName == "name"){
-        columnValue = 0;
-    }
-    if(columnName == "phone"){
-        columnValue = 1;
-    }
-    if(columnName == "email"){
-        columnValue = 2;
-    }
-    if(columnName == "age"){
-        columnValue = 3;
-    }
-    if(columnName == "intrests"){
-        columnValue = 4;
-    }
-    if(columnName == "create"){
-        columnValue = 6;
-    }
-    // Get the rows of the tbody
-    let rows = table.getElementsByTagName('tbody')[parseInt(columnValue)].getElementsByTagName('tr');
-
-    // Convert the HTMLCollection to an array for easier manipulation
-    let rowsArray = Array.from(rows);
-
-    // Sort the array based on the text content of the first cell in each row
-    rowsArray.sort((a, b) => {
-        let aValue = a.cells[parseInt(columnValue)].textContent.trim();
-        let bValue = b.cells[parseInt(columnValue)].textContent.trim();
-
-        // Convert values to numbers for numeric sorting
-        return isNaN(aValue) || isNaN(bValue) ? aValue.localeCompare(bValue) : aValue - bValue;
+// Search function
+function searchTable() {
+    let searchTerm = searchInput.value.toLowerCase();
+    let filteredArray = detailsArray.filter(entry => {
+        return (
+            entry.name.toLowerCase().includes(searchTerm) ||
+            entry.phone.includes(searchTerm) ||
+            entry.email.toLowerCase().includes(searchTerm) ||
+            entry.age.toString().includes(searchTerm) ||
+            entry.intrests.includes(searchTerm)
+        );
     });
 
-    // Clear the existing table body content
-    table.getElementsByTagName('tbody')[parseInt(columnValue)].innerHTML = '';
+    createTable(filteredArray, pageLimit, 0); // Display the filtered data starting from the first page
+}
+//serach at column level
+// Add an event listener for the 'input' event on the search input
+let searchInputAtColumn1 = document.getElementById('nameSearch');
+searchInputAtColumn1.addEventListener('input', function () {
+    searchColumn('name',searchInputAtColumn1);
+});
+let searchInputAtColumn2 = document.getElementById('phoneSearch');
+searchInputAtColumn2.addEventListener('input', function () {
+    searchColumn('phone',searchInputAtColumn2);
+});
+let searchInputAtColumn3 = document.getElementById('emailSearch');
+searchInputAtColumn3.addEventListener('input', function () {
+    searchColumn('email',searchInputAtColumn3);
+});
+let searchInputAtColumn4 = document.getElementById('ageSearch');
+searchInputAtColumn4.addEventListener('input', function () {
+    searchColumn('age',searchInputAtColumn4);
+});
+let searchInputAtColumn5 = document.getElementById('intrestsSearch');
+searchInputAtColumn5.addEventListener('input', function () {
+    searchColumn('intrests',searchInputAtColumn5);
+});
+let searchInputAtColumn7 = document.getElementById('dateSearch');
+searchInputAtColumn7.addEventListener('input', function () {
+    searchColumn('date',searchInputAtColumn7);
+});
 
-    // Append the sorted rows back to the table body
-    rowsArray.forEach(row => {
-        table.getElementsByTagName('tbody')[parseInt(columnValue)].appendChild(row);
+function searchColumn(columnName,searchInputAtColumn) {
+    let searchTerm = searchInputAtColumn.value.toLowerCase();
+    let filteredArray = detailsArray.filter(entry => {
+        // Check if the specified column name exists in the entry
+        if (entry.hasOwnProperty(columnName)) {
+            // Check if the specified column contains the search term
+            return entry[columnName].toString().toLowerCase().includes(searchTerm);
+        } else {
+            console.error("Invalid column name.");
+            return false;
+        }
     });
+
+    createTable(filteredArray, pageLimit, 0); // Display the filtered data starting from the first page
+}
+function editDetails(index){
+    document.getElementById('inputForm').reset();
+    document.getElementById('optionGroupRight').innerHTML = "";
+    document.getElementById('optionGroupLeft').innerHTML = '<option id="option1">c</option><option id="option2">Java</option><option id="option3">Python</option><option id="option4">HTML</option>'
+    nameElement.value = detailsArray[index]['name'];
+    phoneElement.value = detailsArray[index]['phone'];
+    emailElement.value = detailsArray[index]['email'];
+    ageElement.value = detailsArray[index]['age'];
+                                        // making the intrests reset
+    let intrestsArray = detailsArray[index]['intrests'].split(",");
+    let intrestsMainArray = ['c','Java','Python','HTML'];
+    
+    let leftSelect = document.getElementById('leftSelect');
+    let rightSelect = document.getElementById('rightSelect');
+
+    leftSelect.innerHTML = "";
+    rightSelect.innerHTML = "";
+    // Populate rightSelect with array2 values
+    intrestsArray.forEach(value => {
+        let option = document.createElement('option');
+        option.value = value;
+        option.text = value;
+        rightSelect.add(option);
+    });
+    // Calculate the difference between array1 and array2
+    let differenceArray = intrestsMainArray.filter(value => !intrestsArray.includes(value));
+    // Populate leftSelect with the difference values
+    differenceArray.forEach(value => {
+        let option = document.createElement('option');
+        option.value = value;
+        option.text = value;
+        leftSelect.add(option);
+    });
+                                            //ended intrests reset
+    console.log(detailsArray[index]['name']);
+
+    if(detailsArray[index]['male'].checked == true){
+        genderMaleElement.checked = true;
+        genderFemaleElement.checked = false;
+    }else{
+        genderFemaleElement.checked = true;
+        genderMaleElement.checked = false;
+    }
+    let saveButton = document.createElement('button');
+    saveButton.textContent = "SAVE";
+    saveButton.className = 'button';
+    saveButton.addEventListener('click',()=>{
+        saveDetails(index);
+    })
+    document.getElementById('tableSection2').appendChild(saveButton);
+    document.getElementById('submitButton').style.display = 'none';
+}
+function saveDetails(index){
+    validateDetails();
+    detailsArray[index]['name'] = nameElement.value;
+    detailsArray[index]['phone'] = phoneElement.value;
+    detailsArray[index]['email'] = emailElement.value;
+    detailsArray[index]['age'] = ageElement.value;
+    detailsArray[index]['male'] = genderMaleElement.checked;
+    detailsArray[index]['female'] = genderFemaleElement.checked;
+    
+    document.getElementById('leftSelect').innerHTML = '<optgroup id="optionGroupLeft"><option id="option1">c</option><option id="option2">Java</option><option id="option3">Python</option><option id="option4">HTML</option></optgroup>';
+    document.getElementById('rightSelect').innerHTML = "";
+    localStorage.setItem('data',JSON.stringify(detailsArray));
+    createTable(detailsArray, pageLimit, pageStart);
+
+    resetDetails();
+    document.getElementById('submitButton').style.display = 'block';
+}
+function arrayDifference(arr1, arr2) {
+    return arr1.filter(item => !arr2.includes(item));
+}
+function deleteDetails(index){
+    let result = window.confirm("Do you want to proceed?");
+
+    if (result) {
+        // User clicked "OK" or "Yes"
+        console.log("User clicked OK");
+    } else {
+        // User clicked "Cancel" or "No"
+        return;
+    }
+    console.log(detailsArray[index]);
+    detailsArray.splice(index,1);
+    console.log(detailsArray);
+    localStorage.setItem('data',JSON.stringify(detailsArray));
+    createTable(detailsArray, pageLimit, pageStart);
+}
+document.getElementById('noOfEntries').addEventListener('input',()=>{
+    pageLimit = document.getElementById('noOfEntries').value;
+    createTable(detailsArray, pageLimit, pageStart);
+});
+
+let currentColumn = -1; // Variable to store the currently sorted column
+let ascending = true; // Variable to track the sorting order
+
+function sortTable(columnIndex) {
+    let rows = Array.from(table.tBodies[0].rows); // Exclude the header and footer rows
+
+    // Sort the rows based on the specified column
+    rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex].textContent.trim();
+        let bValue = b.cells[columnIndex].textContent.trim();
+
+        if (!isNaN(parseFloat(aValue)) && !isNaN(parseFloat(bValue))) {
+            // If the values are numbers, compare as numbers
+            return parseFloat(aValue) - parseFloat(bValue);
+        } else {
+            // If the values are strings, compare as strings
+            return aValue.localeCompare(bValue);
+        }
+    });
+
+    // Reverse the order if the same column is clicked again
+    if (currentColumn === columnIndex) {
+        ascending = !ascending;
+    } else {
+        ascending = true;
+    }
+
+    // Apply the sorting order
+    if (!ascending) {
+        rows.reverse();
+    }
+
+    // Re-append the sorted rows to the table body
+    for (let row of rows) {
+        table.tBodies[0].appendChild(row);
+    }
+
+    // Update the currently sorted column
+    currentColumn = columnIndex;
 }

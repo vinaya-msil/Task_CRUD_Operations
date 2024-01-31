@@ -18,12 +18,20 @@ body{
     display: flex;
     flex-direction: column;
 }
+#detailsTableContainer{
+    overflow: auto;
+}
 #tableSection{
     width: 100%;
     height: 90vh;
     border-radius: 12px;
     text-align: center;
 
+}
+.editOrDeleteButtons{
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
 }
 th{
     position: sticky;
@@ -36,10 +44,10 @@ th{
     margin-top: 2.5vh;
 }
 th,td{
-    max-width: 100%;
+    max-width: 15vw;
     width: 25vw;
-        overflow-wrap: break-word;
-        border: 3px solid darkgray;
+    overflow-wrap: break-word;
+    border: 3px solid darkgray;
 }
 table{
     border-collapse: collapse;
@@ -65,32 +73,18 @@ table{
     width: 8.5vw;
 }
 .topSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     border-radius: 20px;
     border: 2px solid black;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     overflow-x: auto;
 }
-    /* th,td{
-        max-width: auto;
-        overflow-wrap: break-word;
-        border: 3px solid darkgray;
-    }
-    #tableSection{
-        height: 100%;
-        width: auto;
-    }
-    #multiSelectDiv{
-        display: flex;
-    }
-    .topSection{
-        height: 100%;
-        border: 2px solid black;
-        width: 95vw;
-    } */
 #showOrHideButton{
     padding: 7px;
     margin: 20px;
